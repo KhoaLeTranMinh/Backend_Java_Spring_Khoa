@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -16,8 +18,11 @@ import com.example.demo.Interfaces.RoomRepository;
 import com.example.demo.Models.Booking;
 import com.example.demo.Models.Room;
 
+import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Component
 public class BookingRepositoryImpl implements BookingRepositoryCustom {
@@ -32,6 +37,10 @@ public class BookingRepositoryImpl implements BookingRepositoryCustom {
     @Autowired
     private RoomRepository roomRepositoryObject;
 
+    @Override
+    @Modifying
+    @Transactional
+    @Query("update Room r set r.available = false where r.id = :id")
     public void setABooking(@Param("id") Long roomId) {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(2);
