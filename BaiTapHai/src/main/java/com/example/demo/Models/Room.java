@@ -2,6 +2,7 @@ package com.example.demo.Models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.GeneratedValue;
@@ -23,5 +24,8 @@ public class Room {
     private Long id;
     private String roomName;
     private boolean available;
+
+    @Version
+    private Integer version;
 
 }
